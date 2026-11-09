@@ -1,6 +1,6 @@
-# HWMN — Matrix
+# HWMN
 
-A C++ assignment focused on RAII, dynamic memory management, move semantics, and determinant computation for generic square matrices.
+The program focused on RAII, dynamic memory management, move semantics, and determinant computation for square matrices.
 
 ## Objectives
 
@@ -28,7 +28,11 @@ HWMN/
 │       ├── Bareiss.hpp
 │       └── Determinant.hpp
 ├── src/
-│   └── main.cpp
+│   ├── main.cpp
+│   └── determinant/
+│       ├── Gaussian.cpp
+│       ├── Bareiss.cpp
+│       └── Determinant.cpp
 ├── tests/
 ├── benchmarks/
 ├── CMakeLists.txt

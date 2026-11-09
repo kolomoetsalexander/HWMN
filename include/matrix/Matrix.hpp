@@ -71,7 +71,6 @@ public:
             return *this;
         }
         delete[] data_;
-
         rows_ = other.rows_;
         cols_ = other.cols_;
         data_ = other.data_;
