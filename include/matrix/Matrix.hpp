@@ -14,6 +14,7 @@ private:
     T* data_;
 
 public:
+//constructor
     Matrix(size_t rows, size_t cols): rows_(rows), cols_(cols), data_(nullptr){
         if(rows == 0 || cols == 0){
             throw std::invalid_argument("cols&rows must be positive");
@@ -30,11 +31,11 @@ public:
         }
         data_ = new T[count]{};
     }
-
+//destructor
     ~Matrix(){
         delete[] data_;
     }
-
+//copy constructor
     Matrix(const Matrix& other): rows_(other.rows_), cols_(other.cols_), data_(nullptr){
         if (other.data_ == nullptr){
             return;
@@ -43,16 +44,12 @@ public:
         const size_t count = rows_ * cols_;
         T* newData = new T[count]{};
 
-        try{
-            std::copy(other.data_, other.data_ + count, newData);
-        }
-        catch(...){
-            delete[] newData;
-            throw;
+        for (size_t i = 0; i < count; ++i){
+            newData[i] = other.data_[i];
         }
         data_ = newData;
     }
-
+//copy assigment
     Matrix& operator=(const Matrix& other){
         if (this == &other){
             return *this;
@@ -62,13 +59,13 @@ public:
 
         return *this;
     }
-
+//moving constructor
     Matrix(Matrix&& other) noexcept: rows_(other.rows_), cols_(other.cols_), data_(other.data_){
         other.rows_ = 0;
         other.cols_ = 0;
         other.data_ = nullptr;
     }
-
+//move assigment
     Matrix& operator=(Matrix&& other) noexcept{
         if (this == &other){
             return *this;

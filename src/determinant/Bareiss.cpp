@@ -20,7 +20,7 @@ long long bareiss(const Matrix<long long>& matrix){
     long long previousPivot = 1;
     int sign = 1;
 
-    for (size_t k = 0; k + 1 < n; ++k){
+    for (size_t k = 0; k + 1 < n; k++){
 
         //find leading element
         size_t pivotRow = k;
@@ -33,7 +33,7 @@ long long bareiss(const Matrix<long long>& matrix){
         }
         //rows swap
         if (pivotRow != k){
-            for (size_t j = 0; j < n; ++j){
+            for (size_t j = 0; j < n; j++){
                 std::swap(a(k, j), a(pivotRow, j));
             }
             sign = -sign;
@@ -42,8 +42,8 @@ long long bareiss(const Matrix<long long>& matrix){
         const long long pivot = a(k, k);
 
         //Bareiss formula
-        for (size_t i = k + 1; i < n; ++i){
-            for (size_t j = k + 1; j < n; ++j){
+        for (size_t i = k + 1; i < n; i++){
+            for (size_t j = k + 1; j < n; j++){
 
                 const __int128 numerator = static_cast<__int128>(pivot) * a(i, j) - static_cast<__int128>(a(i, k)) * a(k, j);
 
