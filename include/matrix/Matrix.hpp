@@ -25,6 +25,7 @@ public:
     }
 //copy constructor
     Matrix(const Matrix& other): rows_(other.rows_), cols_(other.cols_), data_(nullptr){
+        
         if (other.data_ == nullptr){
             return;
         }
@@ -32,8 +33,14 @@ public:
         const size_t count = rows_ * cols_;
         T* newData = new T[count]{};
 
-        for (size_t i = 0; i < count; ++i){
-            newData[i] = other.data_[i];
+        try{
+            for (size_t i = 0; i < count; ++i){
+                newData[i] = other.data_[i];
+            }
+        }
+        catch (...){
+            delete[] newData;
+            throw;
         }
         data_ = newData;
     }

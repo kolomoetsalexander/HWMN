@@ -42,8 +42,8 @@ long long bareiss(const Matrix<long long>& matrix){
             for (size_t j = k + 1; j < n; j++){
 
                 const int numerator = pivot * a(i, j) - a(i, k) * a(k, j);
-                const int value = numerator / previousPivot;
-                a(i, j) = static_cast<long long>(value);
+                const long long value = numerator / previousPivot;
+                a(i, j) = value;
             }
             a(i, k) = 0;
         }

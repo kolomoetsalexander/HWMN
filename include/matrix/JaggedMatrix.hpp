@@ -27,9 +27,15 @@ public:
     //constructor
     JaggedMatrix(size_t rows, size_t cols): rows_(rows), cols_(cols), data_(nullptr){
         data_ = new T*[rows_]{};
-        for (size_t i = 0; i < rows_; ++i){
+        try{
+            for (size_t i = 0; i < rows_; ++i){
                 data_[i] = new T[cols_]{};
             }
+        }
+        catch (...){
+            release();
+            throw;
+        }
     }
 
     //destructor
@@ -44,14 +50,20 @@ public:
             return;
         }
         data_ = new T*[rows_]{};
+        
+        try{
+            for (size_t i = 0; i < rows_; ++i){
+                data_[i] = new T[cols_]{};
 
-        for (size_t i = 0; i < rows_; ++i){
-            data_[i] = new T[cols_]{};
-            for (size_t j = 0; j < cols_; ++j){
-                data_[i][j] = other.data_[i][j];
+                for (size_t j = 0; j < cols_; ++j){
+                    data_[i][j] = other.data_[i][j];
+                }
             }
         }
-        
+        catch (...){
+            release();
+            throw;
+        }
     }
 
     //copy assignment
@@ -88,17 +100,10 @@ public:
     }
 
     T& operator()(size_t row, size_t col){
-        if (row >= rows_ || col >= cols_){
-            throw std::out_of_range("indexes out of range");
-        }
         return data_[row][col];
     }
 
     const T& operator()(size_t row, size_t col) const{
-        if (row >= rows_ || col >= cols_){
-            throw std::out_of_range("indexes out of range");
-        }
-
         return data_[row][col];
     }
     size_t rows() const noexcept{
