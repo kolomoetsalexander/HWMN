@@ -26,20 +26,6 @@ private:
 public:
     //constructor
     JaggedMatrix(size_t rows, size_t cols): rows_(rows), cols_(cols), data_(nullptr){
-
-        if (rows == 0 || cols == 0){
-            throw std::invalid_argument("cols&rows must be positive");
-        }
-        const size_t maxSize = std::numeric_limits<size_t>::max();
-
-        if (rows > maxSize / sizeof(T*)){
-            throw std::length_error("allocation size overflow");
-        }
-
-        if (cols > maxSize / sizeof(T)){
-            throw std::length_error("allocation size overflow");
-        }
-
         data_ = new T*[rows_]{};
         for (size_t i = 0; i < rows_; ++i){
                 data_[i] = new T[cols_]{};

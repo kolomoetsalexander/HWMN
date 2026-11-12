@@ -7,10 +7,6 @@
 #include <utility>
 
 double gaussian(const Matrix<double>& matrix){
-    if (matrix.rows() != matrix.cols()){
-        throw std::invalid_argument("matrix must be square");
-    }
-
     Matrix<double> a(matrix);
     const size_t n = a.rows();
 
