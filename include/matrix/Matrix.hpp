@@ -78,10 +78,16 @@ public:
     }
 
     T& operator()(size_t row, size_t col){
+        if (row >= rows_ || col >= cols_){
+            throw std::out_of_range("Indexes out of range");
+        }
         return data_[row * cols_ + col];
     }
 
     const T& operator()(size_t row, size_t col) const{
+        if (row >= rows_ || col >= cols_){
+            throw std::out_of_range("Indexes out of range");
+        }
         return data_[row * cols_ + col];
     }
     size_t rows() const noexcept{

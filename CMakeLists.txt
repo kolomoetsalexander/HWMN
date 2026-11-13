@@ -27,7 +27,7 @@ add_executable(hwmn_tests
     tests/MatrixTests.cpp
     tests/JaggedMatrixTests.cpp
     tests/GaussianTests.cpp
-    tests/BarreissTests.cpp
+    tests/BareissTests.cpp
 )
 
 target_link_libraries(hwmn_tests PRIVATE hwmn GTest::gtest_main)

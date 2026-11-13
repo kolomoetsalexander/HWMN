@@ -1,5 +1,5 @@
-#include "include/determinant/Bareiss.hpp"
-#include "include/matrix/Matrix.hpp"
+#include "determinant/Bareiss.hpp"
+#include "matrix/Matrix.hpp"
 
 #include <cstddef>
 #include <limits>
