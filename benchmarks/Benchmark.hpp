@@ -15,7 +15,6 @@ double benchmark(Function function, int repetitions = 5){
         auto start = std::chrono::steady_clock::now();
         result = static_cast<long double>(function());
         auto end = std::chrono::steady_clock::now();
-
         double elapsed = std::chrono::duration<double, std::milli>(end - start).count();
         totalTime += elapsed;
     }
