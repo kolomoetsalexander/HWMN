@@ -28,8 +28,12 @@ add_executable(hwmn_tests
     tests/JaggedMatrixTests.cpp
     tests/GaussianTests.cpp
     tests/BareissTests.cpp
+    tests/MatrixGeneratorTests.cpp
+    tests/LargeMatrixTests.cpp
 )
-
+target_include_directories(hwmn_tests PRIVATE
+    ${CMAKE_SOURCE_DIR}
+)
 target_link_libraries(hwmn_tests PRIVATE hwmn GTest::gtest_main)
 
 include(GoogleTest)
