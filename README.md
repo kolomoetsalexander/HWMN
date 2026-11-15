@@ -1,21 +1,17 @@
 # HWMN
 
-The program focused on RAII, dynamic memory management, move semantics, and determinant computation for square matrices.
+A C++17 implementation of matrix operations focused on RAII, manual memory management, copy/move semantics, and determinant computation.
 
-## Objectives
+## Features
 
-- RAII and the Rule of Five.
-- Implement deep copying and move semantics.
-- Compare two memory layouts: contiguous storage (`T*`) and jagged arrays (`T**`).
-- Implement determinant algorithms without modifying the original matrix.
-- Benchmark different algorithms and memory layouts.
+- **Matrix** — contiguous memory layout (`T*`).
+- **JaggedMatrix** — separately allocated rows (`T**`).
+- Rule of Five and deep copying.
+- Gaussian elimination with partial pivoting.
+- Bareiss determinant algorithm.
+- Unit tests, large-matrix tests, and performance benchmarks.
 
-## Algorithms
-
-- **Gaussian Elimination** — determinant computation for floating-point matrices using partial pivoting.
-- **Bareiss Algorithm** — determinant computation for integer matrices.
-
-## Structure
+## Architecture
 
 ```text
 HWMN/
@@ -28,27 +24,75 @@ HWMN/
 │       ├── Bareiss.hpp
 │       └── Determinant.hpp
 ├── src/
-│   ├── main.cpp
 │   └── determinant/
 │       ├── Gaussian.cpp
 │       ├── Bareiss.cpp
 │       └── Determinant.cpp
-├── tests/
 ├── benchmarks/
+│   ├── main.cpp
+│   ├── Benchmark.hpp
+│   └── GenerateMatrices.hpp
+├── tests/
+│   ├── MatrixTests.cpp
+│   ├── JaggedMatrixTests.cpp
+│   ├── GaussianTests.cpp
+│   ├── BareissTests.cpp
+│   ├── MatrixGeneratorTests.cpp
+│   └── LargeMatrixTests.cpp
+├── plot/
+│   ├── plot.py
+│   ├── gaussian.png
+│   ├── bareiss.png
+│   └── complexity.png
 ├── CMakeLists.txt
 └── README.md
 ```
 
-## Technologies
+## Build
 
-- C++17
-- CMake
-- GoogleTest
+Requires C++17 and CMake.
+
+```bash
+mkdir build-release
+cd build-release
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make
+```
+
+## Run
+
+```bash
+./HWMN
+```
+
+Benchmark results are printed in CSV format.
 
 ## Testing
 
-Unit tests, end-to-end tests, and benchmarks to evaluate correctness and performance across different matrix sizes.
+Tests are implemented using GoogleTest.
 
-## Constraints
+```bash
+ctest --output-on-failure
+```
 
-Matrix storage must be implemented manually using dynamic arrays, without STL containers.
+## Benchmarks
+
+Performance measurements compare Gaussian elimination and the Bareiss algorithm using contiguous and jagged matrix layouts.
+
+Gaussian elimination is tested on random floating-point matrices, while Bareiss is tested on upper triangular integer matrices.
+
+### Gaussian Elimination
+
+![Gaussian Benchmark](plot/gaussian.png)
+
+### Bareiss Algorithm
+
+![Bareiss Benchmark](plot/bareiss.png)
+
+### Computational Complexity
+
+![Complexity](plot/complexity.png)
+
+Both implementations exhibit approximately cubic time complexity. The measured performance differences between the two memory layouts are relatively small for the tested matrices.
+
+The algorithms use different numeric types and input matrices, so their execution times are not directly comparable as general measures of algorithm efficiency.
