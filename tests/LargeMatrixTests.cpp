@@ -36,7 +36,7 @@ TEST(LargeMatrixTests, BareissMatrix){
     auto original = matrix;
 
     EXPECT_EQ(bareiss(matrix), 1);
-    
+
     //as a test No.1
     for (size_t i = 0; i < N; ++i){
         for (size_t j = 0; j < N; ++j){

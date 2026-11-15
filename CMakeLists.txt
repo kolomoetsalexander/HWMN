@@ -11,7 +11,13 @@ add_library(hwmn
 
 target_include_directories(hwmn PUBLIC include)
 
-add_executable(HWMN src/main.cpp)
+add_executable(HWMN benchmarks/main.cpp)
+
+target_link_libraries(HWMN PRIVATE hwmn)
+
+target_include_directories(HWMN PRIVATE
+    ${CMAKE_SOURCE_DIR}
+)
 target_link_libraries(HWMN PRIVATE hwmn)
 
 include(FetchContent)
