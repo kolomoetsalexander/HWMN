@@ -1,13 +1,15 @@
 #include "determinant/Gaussian.hpp"
 #include "matrix/Matrix.hpp"
+#include "matrix/JaggedMatrix.hpp"
 
 #include <cmath>
 #include <cstddef>
 #include <stdexcept>
 #include <utility>
 
-double gaussian(const Matrix<double>& matrix){
-    Matrix<double> a(matrix);
+template<typename MatrixType>
+double gaussian(const MatrixType& matrix){
+    MatrixType a(matrix);
     const size_t n = a.rows();
 
     double determinant = 1.0;
@@ -51,3 +53,5 @@ double gaussian(const Matrix<double>& matrix){
     }
     return sign * determinant;
 }
+template double gaussian<Matrix<double>>(const Matrix<double>&);
+template double gaussian<JaggedMatrix<double>>(const JaggedMatrix<double>&);

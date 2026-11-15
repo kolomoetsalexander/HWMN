@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "matrix/Matrix.hpp"
 #include "determinant/Gaussian.hpp"
+#include "matrix/JaggedMatrix.hpp"
 
 TEST(GaussianTests, TwoByTwo){
     Matrix<double> a(2, 2);
@@ -57,4 +58,13 @@ TEST(GaussianTests, OriginalMatrixUnchanged){
     EXPECT_EQ(a(0, 1), 2);
     EXPECT_EQ(a(1, 0), 3);
     EXPECT_EQ(a(1, 1), 4);
+}
+TEST(GaussianTests, JaggedMatrix){
+    JaggedMatrix<double> a(2, 2);
+    a(0, 0) = 1.0;
+    a(0, 1) = 2.0;
+    a(1, 0) = 3.0;
+    a(1, 1) = 4.0;
+
+    EXPECT_NEAR(gaussian(a), -2.0, 1e-9);
 }

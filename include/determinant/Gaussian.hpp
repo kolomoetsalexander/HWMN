@@ -3,4 +3,5 @@
 template<typename T>
 class Matrix;
 
-double gaussian(const Matrix<double>& matrix);
+template<typename MatrixType>
+double gaussian(const MatrixType& matrix);

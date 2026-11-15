@@ -1,13 +1,15 @@
 #include "determinant/Bareiss.hpp"
 #include "matrix/Matrix.hpp"
+#include "matrix/JaggedMatrix.hpp"
 
 #include <cstddef>
 #include <limits>
 #include <stdexcept>
 #include <utility>
 
-long long bareiss(const Matrix<long long>& matrix){
-    Matrix<long long> a(matrix);
+template<typename MatrixType>
+long long bareiss(const MatrixType& matrix){
+    MatrixType a(matrix);
     const size_t n = a.rows();
 
     //previous leading element
@@ -41,7 +43,7 @@ long long bareiss(const Matrix<long long>& matrix){
         for (size_t i = k + 1; i < n; i++){
             for (size_t j = k + 1; j < n; j++){
 
-                const int numerator = pivot * a(i, j) - a(i, k) * a(k, j);
+                const long long numerator = pivot * a(i, j) - a(i, k) * a(k, j);
                 const long long value = numerator / previousPivot;
                 a(i, j) = value;
             }
@@ -51,7 +53,8 @@ long long bareiss(const Matrix<long long>& matrix){
         
         previousPivot = pivot;
     }
-    const int result = sign * a(n - 1, n - 1);
-
-    return static_cast<long long>(result);
+    const long long result = sign * a(n - 1, n - 1);
+    return result;
 }
+template long long bareiss<Matrix<long long>>(const Matrix<long long>&);
+template long long bareiss<JaggedMatrix<long long>>(const JaggedMatrix<long long>&);
