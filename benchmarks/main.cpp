@@ -7,10 +7,10 @@
 #include "benchmarks/GenerateMatrices.hpp"
 
 int main(){
-    constexpr size_t sizes[] = {50, 100, 200, 300};
+    constexpr size_t sizes[] = {50, 100, 200, 300, 500, 700, 1000};
     std::cout << "algorithm,layout,size,time_ms\n";
 
-    for (size_t i = 0; i < 4; i++){
+    for (size_t i = 0; i < 7; i++){
         size_t n = sizes[i];
         auto a = generateRandomMatrix<Matrix<double>>(n, -1.0, 1.0, 42);
         auto b = generateRandomMatrix<JaggedMatrix<double>>(n, -1.0, 1.0, 42);
@@ -20,9 +20,9 @@ int main(){
         std::cout << "gaussian,contiguous,"<< n << "," << timeA << '\n';
         std::cout << "gaussian,jagged," << n << "," << timeB << '\n';
     }
-    constexpr size_t bareissSizes[] = {50, 100, 200, 300};
+    constexpr size_t bareissSizes[] = {50, 100, 200, 300, 500, 700, 1000};
 
-    for (size_t i = 0; i < 4; i++){
+    for (size_t i = 0; i < 7; i++){
         size_t n = bareissSizes[i];
         auto a = generateUpperTriangularMatrix<Matrix<long long>>(n);
         auto b = generateUpperTriangularMatrix<JaggedMatrix<long long>>(n);

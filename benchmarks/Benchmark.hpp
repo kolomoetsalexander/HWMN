@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 template<typename Function>
-double benchmark(Function function, int repetitions = 5){
+double benchmark(Function function, int repetitions = 20){
     if (repetitions <= 0){
         throw std::invalid_argument("invalid repetitions");
     }
