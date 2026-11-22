@@ -68,3 +68,13 @@ TEST(GaussianTests, JaggedMatrix){
 
     EXPECT_NEAR(gaussian(a), -2.0, 1e-9);
 }
+TEST(GaussianTests, NonSquareMatrix){
+    Matrix<double> a(2, 3);
+
+    EXPECT_THROW(gaussian(a), std::invalid_argument);
+}
+TEST(GaussianTests, NonSquareJaggedMatrix){
+    JaggedMatrix<double> a(2, 3);
+
+    EXPECT_THROW(gaussian(a), std::invalid_argument);
+}

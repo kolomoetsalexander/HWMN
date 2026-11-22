@@ -9,6 +9,9 @@
 
 template<typename MatrixType>
 double gaussian(const MatrixType& matrix){
+    if (matrix.rows() != matrix.cols()){
+        throw std::invalid_argument("Matrix must be square");
+    }
     MatrixType a(matrix);
     const size_t n = a.rows();
 

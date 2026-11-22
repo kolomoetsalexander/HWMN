@@ -88,3 +88,13 @@ TEST(BareissTests, JaggedMatrix){
 
     EXPECT_EQ(bareiss(a), -9);
 }
+TEST(BareissTests, NonSquareMatrix){
+    Matrix<long long> a(2, 3);
+
+    EXPECT_THROW(bareiss(a), std::invalid_argument);
+}
+TEST(BareissTests, NonSquareJaggedMatrix){
+    JaggedMatrix<long long> a(2, 3);
+
+    EXPECT_THROW(bareiss(a), std::invalid_argument);
+}

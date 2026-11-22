@@ -15,7 +15,7 @@ MatrixType generateRandomMatrix(size_t n, T min, T max, uint32_t seed = 42){
 
     MatrixType matrix(n, n);
     std::mt19937 generator(seed);
-
+    //integer
     if constexpr (std::is_integral_v<T>){
         std::uniform_int_distribution<T> distribution(min, max);
 
@@ -25,6 +25,7 @@ MatrixType generateRandomMatrix(size_t n, T min, T max, uint32_t seed = 42){
             }
         }
     } 
+    //only real
     else{
         std::uniform_real_distribution<T> distribution(min, max);
 
@@ -54,7 +55,7 @@ MatrixType generateUpperTriangularMatrix(size_t n){
     return matrix;
 }
 
-//generate a singular matrix
+//generate a singular matrix (det = 0)
 template<typename MatrixType, typename T>
 MatrixType generateSingularMatrix(size_t n, T min, T max, uint32_t seed = 42){
     MatrixType matrix = generateRandomMatrix<MatrixType>(n, min, max, seed);
