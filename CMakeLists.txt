@@ -3,16 +3,12 @@ project(HWMN)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(hwmn
-    src/determinant/Gaussian.cpp
-    src/determinant/Bareiss.cpp
-    src/determinant/Determinant.cpp
-)
+#library
+add_library(hwmn INTERFACE)
+target_include_directories(hwmn INTERFACE include)
 
-target_include_directories(hwmn PUBLIC include)
-
+#benchmarks
 add_executable(HWMN benchmarks/main.cpp)
-
 target_link_libraries(HWMN PRIVATE hwmn)
 
 target_include_directories(HWMN PRIVATE
@@ -20,6 +16,7 @@ target_include_directories(HWMN PRIVATE
 )
 target_link_libraries(HWMN PRIVATE hwmn)
 
+#GoogleTests
 include(FetchContent)
 FetchContent_Declare(
     googletest
@@ -27,6 +24,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
+#tests
 enable_testing()
 
 add_executable(hwmn_tests
