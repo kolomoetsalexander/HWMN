@@ -70,3 +70,17 @@ MatrixType generateSingularMatrix(size_t n, T min, T max, uint32_t seed = 42){
     }
     return matrix;
 }
+//dense matrix
+template<typename MatrixType>
+MatrixType generateDenseMatrix(size_t n){
+    MatrixType matrix(n, n);
+
+    for (size_t i = 0; i < n; ++i){
+        for (size_t j = 0; j < n; ++j){
+            matrix(i, j) =
+                (i % 5 + 1) * (j % 7 + 1)
+                + (i == j ? 1 : 0);
+        }
+    }
+    return matrix;
+}

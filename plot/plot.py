@@ -1,60 +1,42 @@
-import csv
+import json
 import matplotlib.pyplot as plt
 
-results = {
-    "gaussian": {"contiguous": [], "jagged": []},
-    "bareiss": {"contiguous": [], "jagged": []},
+with open("../build-release/results.json") as file:
+    data = json.load(file)
+
+benchmarks = {
+    "BM_Gaussian<Matrix<double>>": "Gaussian (contiguous)",
+    "BM_Gaussian<JaggedMatrix<double>>": "Gaussian (jagged)",
+    "BM_Bareiss<Matrix<long long>>": "Bareiss (contiguous)",
+    "BM_Bareiss<JaggedMatrix<long long>>": "Bareiss (jagged)"
 }
 
-with open("../build/results.csv", newline="") as file:
-    reader = csv.DictReader(file)
+plt.figure(figsize=(10, 6))
 
-    for row in reader:
-        algorithm = row["algorithm"]
-        layout = row["layout"]
+for name, label in benchmarks.items():
+    sizes = []
+    times = []
 
-        results[algorithm][layout].append((int(row["size"]), float(row["time_ms"])))
+    for result in data["benchmarks"]:
+        if result.get("aggregate_name") != "median":
+            continue
 
-for algorithm in results:
-    plt.figure(figsize=(8, 5))
+        if not result["name"].startswith(name + "/"):
+            continue
 
-    for layout in results[algorithm]:
-        points = sorted(results[algorithm][layout])
+        size = int(result["name"].split("/")[1].split("_")[0])
 
-        sizes = [point[0] for point in points]
-        times = [point[1] for point in points]
+        sizes.append(size)
+        times.append(result["cpu_time"])
 
-        plt.plot(sizes, times, marker="o", label=layout)
+    plt.plot(sizes, times, marker="o", label=label)
 
-    plt.title(f"{algorithm.capitalize()} benchmark")
-    plt.xlabel("Matrix size (n)")
-    plt.ylabel("Time (ms)")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-
-    plt.savefig(f"{algorithm}.png", dpi=200)
-
-#сomparison with theoretical cubic complexity
-plt.figure(figsize=(8, 5))
-
-points = sorted(results["bareiss"]["contiguous"])
-sizes = [point[0] for point in points]
-times = [point[1] for point in points]
-
-scale = times[0] / sizes[0]**3
-theoretical = [scale * n**3 for n in sizes]
-
-plt.plot(sizes, times, "o-", label="Bareiss measured")
-plt.plot(sizes, theoretical, "--", label="O(n^3) reference")
-
-plt.xlabel("Matrix size (n)")
-plt.ylabel("Time (ms)")
-plt.title("Bareiss complexity")
+plt.xlabel("Matrix size")
+plt.ylabel("CPU time (ms)")
+plt.title("Determinant computation performance")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
 
-plt.savefig("complexity.png", dpi=200)
-
+plt.savefig("complexity.png", dpi=300)
 plt.show()

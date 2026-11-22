@@ -42,3 +42,15 @@ target_link_libraries(hwmn_tests PRIVATE hwmn GTest::gtest_main)
 
 include(GoogleTest)
 gtest_discover_tests(hwmn_tests)
+
+#benchmarks
+set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+
+FetchContent_Declare(
+    googlebenchmark
+    URL https://github.com/google/benchmark/archive/refs/tags/v1.9.4.zip
+)
+
+FetchContent_MakeAvailable(googlebenchmark)
+
+target_link_libraries(HWMN PRIVATE benchmark::benchmark)
