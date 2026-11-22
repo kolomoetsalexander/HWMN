@@ -1,13 +1,16 @@
 #pragma once
 
-template<typename T>
-class Matrix;
+#include <type_traits>
 
-template<typename T>
-class JaggedMatrix;
+#include "Gaussian.hpp"
+#include "Bareiss.hpp"
 
-long long determinant(const Matrix<long long>& matrix);
-long long determinant(const JaggedMatrix<long long>& matrix);
-
-double determinant(const Matrix<double>& matrix);
-double determinant(const JaggedMatrix<double>& matrix);
+template<template<typename> class Container, typename T>
+auto determinant(const Container<T>& matrix){
+    if constexpr (std::is_floating_point_v<T>){
+        return gaussian(matrix);
+    }
+    else{
+        return bareiss(matrix);
+    }
+}
