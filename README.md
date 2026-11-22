@@ -77,8 +77,7 @@ Performance measurements are implemented using Google Benchmark.
     --benchmark_out_format=json
 ```
 
-Both algorithms are tested on identical dense structured matrices
-of the form $A = I + uv^T$.
+Both algorithms are tested on dense matrices.
 
 Matrix sizes: 50, 100, 200, 300, 500, 700, 1000.
 
