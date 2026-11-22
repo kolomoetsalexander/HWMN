@@ -12,6 +12,10 @@ long long bareiss(const MatrixType& matrix){
     if (matrix.rows() != matrix.cols()){
         throw std::invalid_argument("matrix must be square");
     }
+    
+    if (matrix.rows() == 0){
+        return 1;
+    }
     MatrixType a(matrix);
     const size_t n = a.rows();
 

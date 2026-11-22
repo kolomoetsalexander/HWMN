@@ -78,3 +78,13 @@ TEST(GaussianTests, NonSquareJaggedMatrix){
 
     EXPECT_THROW(gaussian(a), std::invalid_argument);
 }
+TEST(GaussianTests, EmptyMatrix){
+    Matrix<double> a(0, 0);
+
+    EXPECT_EQ(gaussian(a), 1);
+}
+TEST(GaussianTests, EmptyJaggedMatrix){
+    JaggedMatrix<double> a(0, 0);
+
+    EXPECT_EQ(gaussian(a), 1);
+}
