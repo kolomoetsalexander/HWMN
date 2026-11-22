@@ -108,3 +108,23 @@ TEST(BareissTests, EmptyJaggedMatrix){
 
     EXPECT_EQ(bareiss(a), 1);
 }
+//function for cheking
+template<template<typename> class Container, typename T>
+void checkBareiss(){
+    Container<T> matrix(2, 2);
+
+    matrix(0, 0) = 2;
+    matrix(0, 1) = 3;
+    matrix(1, 0) = 1;
+    matrix(1, 1) = 4;
+
+    EXPECT_EQ(bareiss(matrix), 5);
+}
+TEST(BareissTests, DifferentTypesContiguous){
+    checkBareiss<Matrix, int>();
+    checkBareiss<Matrix, long long>();
+}
+TEST(BareissTests, DifferentTypesJagged){
+    checkBareiss<JaggedMatrix, int>();
+    checkBareiss<JaggedMatrix, long long>();
+}

@@ -88,3 +88,31 @@ TEST(GaussianTests, EmptyJaggedMatrix){
 
     EXPECT_EQ(gaussian(a), 1);
 }
+//function for cheking
+template<template<typename> class Container, typename T>
+void checkGaussian(){
+    Container<T> matrix(2, 2);
+
+    matrix(0, 0) = 2;
+    matrix(0, 1) = 3;
+    matrix(1, 0) = 1;
+    matrix(1, 1) = 4;
+
+    EXPECT_NEAR(gaussian(matrix), 5.0L, 1e-9L);
+}
+
+TEST(GaussianTests, DifferentTypesContiguous){
+    checkGaussian<Matrix, int>();
+    checkGaussian<Matrix, long long>();
+    checkGaussian<Matrix, float>();
+    checkGaussian<Matrix, double>();
+    checkGaussian<Matrix, long double>();
+}
+
+TEST(GaussianTests, DifferentTypesJagged){
+    checkGaussian<JaggedMatrix, int>();
+    checkGaussian<JaggedMatrix, long long>();
+    checkGaussian<JaggedMatrix, float>();
+    checkGaussian<JaggedMatrix, double>();
+    checkGaussian<JaggedMatrix, long double>();
+}
