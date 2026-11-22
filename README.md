@@ -1,15 +1,17 @@
 # HWMN
 
-A C++17 implementation of matrix operations focused on RAII, manual memory management, copy/move semantics, and determinant computation.
+A C++17 matrix library focused on RAII, manual memory
+management, copy/move semantics, and determinant computation.
 
 ## Features
 
-- **Matrix** — contiguous memory layout (`T*`).
-- **JaggedMatrix** — separately allocated rows (`T**`).
+- `Matrix<T>` — contiguous memory layout (`T*`).
+- `JaggedMatrix<T>` — separately allocated rows (`T**`).
 - Rule of Five and deep copying.
-- Gaussian elimination with partial pivoting.
-- Bareiss determinant algorithm.
-- Unit tests, large-matrix tests, and performance benchmarks.
+- Templated Gaussian elimination with partial pivoting.
+- Templated Bareiss determinant algorithm.
+- Automatic algorithm selection based on the element type.
+- Unit tests and performance benchmarks.
 
 ## Architecture
 
@@ -23,26 +25,19 @@ HWMN/
 │       ├── Gaussian.hpp
 │       ├── Bareiss.hpp
 │       └── Determinant.hpp
-├── src/
-│   └── determinant/
-│       ├── Gaussian.cpp
-│       ├── Bareiss.cpp
-│       └── Determinant.cpp
 ├── benchmarks/
 │   ├── main.cpp
-│   ├── Benchmark.hpp
 │   └── GenerateMatrices.hpp
 ├── tests/
 │   ├── MatrixTests.cpp
 │   ├── JaggedMatrixTests.cpp
 │   ├── GaussianTests.cpp
 │   ├── BareissTests.cpp
+│   ├── DeterminantTests.cpp
 │   ├── MatrixGeneratorTests.cpp
 │   └── LargeMatrixTests.cpp
 ├── plot/
 │   ├── plot.py
-│   ├── gaussian.png
-│   ├── bareiss.png
 │   └── complexity.png
 ├── CMakeLists.txt
 └── README.md
@@ -52,6 +47,9 @@ HWMN/
 
 Requires C++17 and CMake.
 
+GoogleTest and Google Benchmark are downloaded automatically
+using CMake FetchContent.
+
 ```bash
 mkdir build-release
 cd build-release
@@ -59,40 +57,60 @@ cmake .. -DCMAKE_BUILD_TYPE=Release
 make
 ```
 
-## Run
-
-```bash
-./HWMN
-```
-
-Benchmark results are printed in CSV format.
-
 ## Testing
 
 Tests are implemented using GoogleTest.
 
 ```bash
-ctest --output-on-failure
+ctest
 ```
 
 ## Benchmarks
 
-Performance measurements compare Gaussian elimination and the Bareiss algorithm using contiguous and jagged matrix layouts.
+Performance measurements are implemented using Google Benchmark.
 
-Gaussian elimination is tested on random floating-point matrices, while Bareiss is tested on upper triangular integer matrices.
+```bash
+./HWMN \
+    --benchmark_repetitions=5 \
+    --benchmark_min_warmup_time=0.5 \
+    --benchmark_out=results.json \
+    --benchmark_out_format=json
+```
 
-### Gaussian Elimination
+Both algorithms are tested on identical dense structured matrices
+of the form $A = I + uv^T$.
 
-![Gaussian Benchmark](plot/gaussian.png)
+Matrix sizes: 50, 100, 200, 300, 500, 700, 1000.
 
-### Bareiss Algorithm
+Gaussian elimination uses `long double` arithmetic, while
+the Bareiss algorithm uses `long long` arithmetic.
 
-![Bareiss Benchmark](plot/bareiss.png)
+Structured input matrices are used to avoid integer overflow
+for the selected matrix sizes.
 
-### Computational Complexity
+Median CPU time is used for performance comparison.
 
-![Complexity](plot/complexity.png)
+![Performance comparison](plot/complexity.png)
 
-Both implementations exhibit approximately cubic time complexity. The measured performance differences between the two memory layouts are relatively small for the tested matrices.
+## Results
 
-The algorithms use different numeric types and input matrices, so their execution times are not directly comparable as general measures of algorithm efficiency.
+- Both algorithms exhibit approximately cubic time complexity,
+  $O(n^3)$.
+- Contiguous and jagged memory layouts demonstrate similar
+  performance.
+- Bareiss is slightly faster than Gaussian elimination under
+  the tested conditions.
+
+The results depend on the selected numeric types, input matrices,
+compiler optimizations, and hardware.
+
+## Plotting
+
+Requires Python and Matplotlib.
+
+From the repository root:
+
+```bash
+cd plot
+python plot.py
+```
